@@ -17,3 +17,40 @@ def main():
     start_date, end_date = details["dates"].get("start_date"), details["dates"].get(
         "end_date"
     )
+
+    if not all([origin_airport_code, destination_airport_code, start_date, end_date]):
+        return
+
+    url = get_flight_url(
+        origin_airport_code, destination_airport_code, start_date, end_date
+    )
+
+    # Create API instance
+    api = BrightDataAPI()
+
+    # Run flight scraping and hotel search sequentially
+    with requests.Session() as session:
+        flights = scrape_flights(url, travel_requirements)
+        hotels = api.search_hotels(
+            session=session,
+            occupancy="2",
+            currency="USD",
+            check_in=start_date,
+            check_out=end_date,
+            location=destination_city_name,
+        )
+
+    response = model.invoke(
+        f"""Summarize the following flight and hotels and give me a nicely formatted output: 
+        Hotels: {hotels} ||| Flights: {flights}. 
+        
+        Then make a reccomendation for the best hotel and flight based on this: {travel_requirements}
+        
+        Note: the price of the flight is maximum of the two prices listed, NOT the combined price.
+        """
+    )
+    print(response.content)
+
+
+if __name__ == "__main__":
+    main()
