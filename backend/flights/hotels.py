@@ -50,35 +50,4 @@ class BrightDataAPI:
 
         return None
 
-    def search_travel(
-        self, session: requests.Session, url: str, params: Dict[Any, Any] = None
-    ) -> Optional[Dict]:
-        """Generic travel search function that can be used for both flights and hotels."""
-        payload = {"url": url, "brd_json": "json"}
 
-        if params:
-            query_params = "&".join(f"{k}={v}" for k, v in params.items())
-            if "?" in payload["url"]:
-                payload["url"] += f"&{query_params}"
-            else:
-                payload["url"] += f"?{query_params}"
-
-        try:
-            response = session.post(
-                f"{self.BASE_URL}/req",
-                params={"customer": self.CUSTOMER_ID, "zone": self.ZONE},
-                headers=self.headers,
-                json=payload,
-            )
-            response.raise_for_status()
-            data = response.json()
-            response_id = data.get("response_id")
-            if response_id:
-                return self._poll_results(session, response_id)
-
-        except requests.exceptions.RequestException as http_err:
-            print(f"HTTP error occurred: {http_err}")
-        except Exception as err:
-            print(f"An error occurred: {err}")
-
-        return None
