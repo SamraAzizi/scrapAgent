@@ -20,34 +20,5 @@ class BrightDataAPI:
             "Authorization": f"Bearer {self.api_key}",
         }
 
-    def _poll_results(
-        self, session: requests.Session, response_id: str, max_retries: int = 10, delay: int = 10
-    ) -> Optional[Dict]:
-        """Generic polling function for any type of search results."""
-        for _ in range(max_retries):
-            try:
-                response = session.get(
-                    f"{self.BASE_URL}/get_result",
-                    params={
-                        "customer": self.CUSTOMER_ID,
-                        "zone": self.ZONE,
-                        "response_id": response_id,
-                    },
-                    headers=self.headers,
-                )
-                if response.status_code == 200:
-                    try:
-                        result = response.json()
-                        return result
-                    except ValueError as e:
-                        print(f"Failed to parse JSON response: {e}")
-                        print("Raw response:", response.text[:200])
-
-                time.sleep(delay)
-
-            except Exception as e:
-                print(f"Error polling results: {e}")
-
-        return None
 
 
