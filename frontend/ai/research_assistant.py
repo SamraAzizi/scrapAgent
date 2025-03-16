@@ -155,4 +155,88 @@ class ResearchAssistant:
             })
         
         # Create and persist vector store
-  
+        if documents:
+            print("\nCreating vector store embeddings (this may take a while)...")
+            batch_size = 100
+            for i in range(0, len(documents), batch_size):
+                batch_end = min(i + batch_size, len(documents))
+                print(f"Processing batch {i//batch_size + 1}/{len(documents)//batch_size + 1}...")
+                
+                if i == 0:
+                    # Create initial vector store with first batch
+                    cls.vector_store = Chroma.from_texts(
+                        documents[i:batch_end],
+                        cls.embeddings,
+                        metadatas=metadatas[i:batch_end],
+                        persist_directory="restaurant_db",
+                        client_settings=client_settings
+                    )
+                else:
+                    # Add subsequent batches
+                    cls.vector_store.add_texts(
+                        documents[i:batch_end],
+                        metadatas=metadatas[i:batch_end]
+                    )
+            
+            print("✅ Vector store created and persisted successfully!")
+            print(f"Total restaurants indexed: {len(documents)}")
+            return cls.vector_store
+        else:
+            print("No documents to process. Creating empty vector store.")
+            cls.vector_store = Chroma(
+                persist_directory="restaurant_db",
+                embedding_function=cls.embeddings
+            )
+            return cls.vector_store
+    
+    def query_restaurant_data(self, query: str) -> str:
+        """Query the vector store for restaurant information"""
+        print(f"Querying restaurants with: {query}")
+        try:
+            # Try a more lenient search
+            results = self.vector_store.similarity_search(
+                query,
+                k=10  # Increase number of results
+            )
+            
+            print(f"Found {len(results)} results")
+            
+            if not results:
+                return "I couldn't find any restaurants matching your query."
+            
+            # Format results
+            response = "Here are the restaurants I found:\n\n"
+            for doc in results:
+                # Add the restaurant information directly without score filtering
+                content = doc.page_content.strip()
+                response += f"{content}\n\n---\n\n"
+            
+            return response.strip()
+            
+        except Exception as e:
+            print(f"Error in restaurant query: {str(e)}")
+            return f"Error searching restaurants: {str(e)}"
+    
+    def get_response(self, user_input):
+        try:
+            response = self.agent.run(input=user_input)
+            return response
+        except Exception as e:
+            return f"I encountered an error while researching. Please try rephrasing your question. Error: {str(e)}"
+    
+    @staticmethod
+    def get_suggested_prompts():
+        return {
+            "column1": [
+                "Find Thai restaurants with high ratings in Bangkok",
+                "What are the best seafood restaurants in Phuket?",
+                "Show me restaurants open late night in Chiang Mai",
+                "Find restaurants with outdoor seating in Thailand",
+            ],
+            "column2": [
+                "What are the most popular local restaurants in Thailand?",
+                "Find Thai restaurants that serve vegetarian food",
+                "What are the best-rated street food spots?",
+                "Show me restaurants with traditional Thai cuisine",
+            ]
+        } 
