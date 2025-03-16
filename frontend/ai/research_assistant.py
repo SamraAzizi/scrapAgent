@@ -118,4 +118,41 @@ class ResearchAssistant:
         documents = []
         metadatas = []
         
+        for i, restaurant in enumerate(restaurants_data):
+            # Show progress every 10%
+            if i % (total // 10) == 0:
+                print(f"Processing restaurants: {(i/total)*100:.1f}% complete...")
+            
+            # Format opening hours
+            open_hours = ""
+            if restaurant.get('open_hours'):
+                for day, hours in restaurant['open_hours'].items():
+                    open_hours += f"{day}: {hours}\n"
+            
+            # Create a detailed text description for each restaurant
+            text = f"""
+            Name: {restaurant.get('name', 'N/A')}
+            Category: {restaurant.get('category', 'N/A')}
+            Address: {restaurant.get('address', 'N/A')}
+            Rating: {restaurant.get('rating', 'N/A')} ({restaurant.get('reviews_count', 0)} reviews)
+            Opening Hours:
+            {open_hours}
+            Current Status: {restaurant.get('open_hours_updated', 'N/A')}
+            Phone: {restaurant.get('phone_number', 'N/A')}
+            Website: {restaurant.get('open_website', 'N/A')}
+            Price Range: {restaurant.get('price_range', 'N/A')}
+            Services: {str(restaurant.get('services_provided', 'N/A'))}
+            Location: Lat {restaurant.get('lat', 'N/A')}, Lon {restaurant.get('lon', 'N/A')}
+            """
+            
+            documents.append(text)
+            metadatas.append({
+                "name": cls._clean_metadata_value(restaurant.get('name')),
+                "category": cls._clean_metadata_value(restaurant.get('category')),
+                "rating": cls._clean_metadata_value(restaurant.get('rating', 0)),
+                "reviews_count": cls._clean_metadata_value(restaurant.get('reviews_count', 0)),
+                "price_range": cls._clean_metadata_value(restaurant.get('price_range'))
+            })
+        
+        # Create and persist vector store
   
