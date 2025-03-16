@@ -82,4 +82,40 @@ class ResearchAssistant:
         print("Starting vector store initialization...")
         
         # Configure Chroma settings
-   
+        client_settings = chromadb.Settings(
+            anonymized_telemetry=False,
+            is_persistent=True
+        )
+        
+        # Check if vector store already exists
+        if os.path.exists("restaurant_db"):
+            print("Found existing restaurant_db, loading...")
+            cls.vector_store = Chroma(
+                persist_directory="restaurant_db",
+                embedding_function=cls.embeddings,
+                client_settings=client_settings
+            )
+            return cls.vector_store
+        
+        # Load restaurant data
+        try:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            data_path = os.path.join(current_dir, '..', 'data', 'thailand_restaurants.json')
+            print(f"Loading restaurant data from: {data_path}")
+            
+            with open(data_path, 'r', encoding='utf-8') as f:
+                restaurants_data = json.load(f)
+                total = len(restaurants_data)
+                print(f"Successfully loaded {total} restaurants")
+        except FileNotFoundError as e:
+            print(f"Error: Could not find restaurant data file: {e}")
+            return None
+        except json.JSONDecodeError as e:
+            print(f"Error: Invalid JSON in restaurant data: {e}")
+            return None
+        
+        # Prepare documents for vector store
+        documents = []
+        metadatas = []
+        
+  
