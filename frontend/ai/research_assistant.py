@@ -50,3 +50,36 @@ class ResearchAssistant:
             )
         ]
         
+        # Initialize conversation memory
+        self.memory = ConversationBufferMemory(
+            memory_key="chat_history",
+            return_messages=True
+        )
+        
+        self.memory.chat_memory.add_ai_message(
+            generate_travel_context_memory(self.context)
+        )
+        
+        # Initialize the agent
+        self.agent = initialize_agent(
+            self.tools,
+            self.llm,
+            agent=AgentType.CHAT_CONVERSATIONAL_REACT_DESCRIPTION,
+            verbose=True,
+            memory=self.memory,
+            handle_parsing_errors=True
+        )
+        
+        # Set initial system message
+        self.system_message = """You are a travel research assistant specializing in Thailand. 
+        Help users learn about local restaurants, attractions, travel tips, and other travel-related information. 
+        Use the Restaurant_Info tool to find specific details about restaurants in Thailand, and the search tool 
+        for general travel information. Always be helpful and informative."""
+    
+    @classmethod  
+    def _initialize_vector_store(cls):
+        """Initialize and populate the vector store with restaurant data"""
+        print("Starting vector store initialization...")
+        
+        # Configure Chroma settings
+   
