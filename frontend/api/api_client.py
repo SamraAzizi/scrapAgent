@@ -18,3 +18,17 @@ class TravelAPIClient:
             }
         )
         return response
+    
+     def search_hotels(self, location, check_in, check_out, occupancy, currency):
+        """Send hotel search request"""
+        response = requests.post(
+            f"{self.base_url}/search_hotels",
+            json={
+                "location": location,
+                "check_in": check_in,
+                "check_out": check_out,
+                "occupancy": occupancy,
+                "currency": currency
+            }
+        )
+        return response
