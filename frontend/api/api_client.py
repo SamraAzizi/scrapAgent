@@ -32,3 +32,26 @@ class TravelAPIClient:
             }
         )
         return response
+    
+     def poll_task_status(self, task_id, task_type, progress_container):
+        """Poll the task status endpoint until completion or failure"""
+        
+        
+        while True:
+            response = requests.get(f"{self.base_url}/task_status/{task_id}")
+            if response.status_code == 200:
+                result = response.json()
+                status = result.get("status")
+                
+                if status == "completed":
+                    progress_container.success(f"{task_type.capitalize()} search completed!")
+                    return result.get("data")
+                elif status == "failed":
+                    error_msg = result.get('error', 'Unknown error')
+                    progress_container.error(f"{task_type.capitalize()} search failed: {error_msg}")
+                    return None
+                
+                time.sleep(2)
+            else:
+                progress_container.error(f"Failed to get {task_type} search status")
+                return None 
