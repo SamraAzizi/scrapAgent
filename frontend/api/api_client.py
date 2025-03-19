@@ -18,8 +18,8 @@ class TravelAPIClient:
             }
         )
         return response
-    
-     def search_hotels(self, location, check_in, check_out, occupancy, currency):
+
+    def search_hotels(self, location, check_in, check_out, occupancy, currency):
         """Send hotel search request"""
         response = requests.post(
             f"{self.base_url}/search_hotels",
@@ -32,8 +32,8 @@ class TravelAPIClient:
             }
         )
         return response
-    
-     def poll_task_status(self, task_id, task_type, progress_container):
+
+    def poll_task_status(self, task_id, task_type, progress_container):
         """Poll the task status endpoint until completion or failure"""
         
         
