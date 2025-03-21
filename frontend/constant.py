@@ -61,3 +61,8 @@ the internet for up-to-date information about your destination."""
 MISSING_AIRPORTS_ERROR = "Please specify both departure and destination airports in your description"
 MISSING_DATES_ERROR = "Please specify both departure and return dates in your description"
 MISSING_DESCRIPTION_ERROR = "Please describe your travel plans"
+# Status Messages
+SEARCH_COMPLETED = "🎉 Perfect! We've found some great options for your trip!"
+SEARCH_FAILED = "😕 We couldn't start the search. Please try again."
+SEARCH_INCOMPLETE = "😕 We couldn't complete the search. Please try again."
+NO_SUMMARY_YET = "No travel summary available yet." 
