@@ -21,3 +21,17 @@ LOADING_STATES = {
         "description": """Analyzing options • Optimizing choices • Preparing summary"""
     }
 }
+
+# Results Tab
+NO_TRIP_DETAILS_MESSAGE = """After you complete your trip search, you'll find:
+- Flight and hotel recommendations
+- Personalized travel summary
+- Interactive travel planning assistant
+
+Head over to the Search tab to start planning your trip!"""
+
+PREVIEW_SUMMARY = """### ✈️ Travel Summary
+You'll get a detailed summary of your travel options, including:
+- Best flight options matching your preferences
+- Hotel recommendations in your price range
+- Trip timeline and logistics
