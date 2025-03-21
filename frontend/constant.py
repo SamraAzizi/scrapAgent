@@ -34,11 +34,9 @@ PREVIEW_SUMMARY = """### ✈️ Travel Summary
 You'll get a detailed summary of your travel options, including:
 - Best flight options matching your preferences
 - Hotel recommendations in your price range
-- Trip timeline and logistics" \
-" \
-"" \
-"" \
-"### 💬 Travel Planning Assistant
+- Trip timeline and logistics
+
+### 💬 Travel Planning Assistant
 Access an AI assistant that can help you:
 - Compare different flight and hotel options
 - Get pricing breakdowns
@@ -49,9 +47,9 @@ Access an AI assistant that can help you:
 RESEARCH_LOCKED_MESSAGE = """The research assistant will help you:
 - Find local restaurants and attractions
 - Learn about your destination
-- Get travel tips and recommendations" \
-"" \
-"Start by describing your trip in the Search tab!"""
+- Get travel tips and recommendations
+
+Start by describing your trip in the Search tab!"""
 
 RESEARCH_ASSISTANT_INTRO = """Research assistant for your trip to {destination}! 
 Learn about local restaurants, attractions, and travel tips. This assistant can search 
@@ -61,6 +59,7 @@ the internet for up-to-date information about your destination."""
 MISSING_AIRPORTS_ERROR = "Please specify both departure and destination airports in your description"
 MISSING_DATES_ERROR = "Please specify both departure and return dates in your description"
 MISSING_DESCRIPTION_ERROR = "Please describe your travel plans"
+
 # Status Messages
 SEARCH_COMPLETED = "🎉 Perfect! We've found some great options for your trip!"
 SEARCH_FAILED = "😕 We couldn't start the search. Please try again."
