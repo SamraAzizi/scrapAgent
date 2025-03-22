@@ -20,3 +20,11 @@ def initialize_session_state():
     """Initialize all session state variables"""
     if 'search_requirements' not in st.session_state:
         st.session_state.search_requirements = ""
+
+        if 'travel_assistant' not in st.session_state:
+        st.session_state.travel_assistant = None
+    if 'chat_messages' not in st.session_state:
+        st.session_state.chat_messages = []
+    if 'summary' not in st.session_state:
+        st.session_state.summary = None
+    if 'research_assistant' not in st.session_state:
