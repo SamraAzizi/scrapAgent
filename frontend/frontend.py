@@ -13,3 +13,10 @@ def format_date(date_str):
     if isinstance(date_str, datetime):
         return date_str.strftime("%B %d, %Y")
     return date_str
+
+ResearchAssistant._initialize_vector_store()
+
+def initialize_session_state():
+    """Initialize all session state variables"""
+    if 'search_requirements' not in st.session_state:
+        st.session_state.search_requirements = ""
