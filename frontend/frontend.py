@@ -28,3 +28,10 @@ def initialize_session_state():
     if 'summary' not in st.session_state:
         st.session_state.summary = None
     if 'research_assistant' not in st.session_state:
+        st.session_state.research_assistant = None
+    if 'research_messages' not in st.session_state:
+        st.session_state.research_messages = []
+    if 'parsed_data' not in st.session_state:
+        st.session_state.parsed_data = None
+    if 'progress_bar' not in st.session_state:
+        st.session_state.progress_bar = None
