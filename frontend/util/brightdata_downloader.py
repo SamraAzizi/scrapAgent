@@ -87,3 +87,8 @@ class BrightDataDownloader:
                 break
             elif status == 'scheduled':
                 print("Snapshot is scheduled for processing")
+
+            elif status == 'processing':
+                print("Snapshot is being processed")
+            elif status in ['failed', 'error']:
+                raise Exception(f"Snapshot failed with status: {status}")
