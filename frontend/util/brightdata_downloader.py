@@ -44,3 +44,17 @@ class BrightDataDownloader:
         except requests.exceptions.RequestException as e:
             print(f"Error checking snapshot status: {e}")
             raise
+
+    def download_snapshot(self, snapshot_id: str, output_file: str) -> None:
+        """Download the snapshot data and save to file"""
+        time.sleep(5)
+        url = f"{self.base_url}/datasets/snapshots/{snapshot_id}/download"
+        try:
+            response = requests.request("GET", url, headers=self.headers)
+            response.raise_for_status()
+            with open(output_file, 'w', encoding='utf-8') as f:
+                f.write(response.text)
+            print(f"Data successfully saved to {output_file}")
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading snapshot: {e}")
+            raise
