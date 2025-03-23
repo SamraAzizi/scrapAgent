@@ -75,3 +75,15 @@ class BrightDataDownloader:
         print(f"Received snapshot ID: {snapshot_id}")
         
         # Poll for completion
+
+        retries = 0
+        while retries < max_retries:
+            status_response = self.get_snapshot_status(snapshot_id)
+            status = status_response.get('status')
+            print(f"Current status: {status}")
+            
+            if status == 'ready':
+                print("Snapshot is ready for download")
+                break
+            elif status == 'scheduled':
+                print("Snapshot is scheduled for processing")
