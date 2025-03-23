@@ -58,3 +58,12 @@ class BrightDataDownloader:
         except requests.exceptions.RequestException as e:
             print(f"Error downloading snapshot: {e}")
             raise
+
+    def poll_and_download(self, dataset_id: str, filter_params: Dict, 
+                         output_file: str, records_limit: Optional[int] = None, 
+                         max_retries: int = 30, delay: int = 10) -> None:
+        """Complete workflow: Filter dataset, poll for completion, and download results"""
+        # Initialize the filter request
+        print("Initiating dataset filter request...")
+        filter_response = self.filter_dataset(dataset_id, filter_params, records_limit)
+        snapshot_id = filter_response.get('snapshot_id')
