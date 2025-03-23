@@ -67,3 +67,11 @@ class BrightDataDownloader:
         print("Initiating dataset filter request...")
         filter_response = self.filter_dataset(dataset_id, filter_params, records_limit)
         snapshot_id = filter_response.get('snapshot_id')
+
+
+        if not snapshot_id:
+            raise ValueError("No snapshot ID received in response")
+        
+        print(f"Received snapshot ID: {snapshot_id}")
+        
+        # Poll for completion
