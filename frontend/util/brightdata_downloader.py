@@ -89,7 +89,42 @@ class BrightDataDownloader:
             elif status in ['failed', 'error']:
                 raise Exception(f"Snapshot failed with status: {status}")
             
+            retries += 1
+            print(f"Waiting {delay} seconds before next check... (Attempt {retries}/{max_retries})")
+            time.sleep(delay)
+        
+        if retries >= max_retries:
+            raise TimeoutError("Maximum retry attempts reached")
+        
+        # Download the data
+        print("Downloading snapshot data...")
+        self.download_snapshot(snapshot_id, output_file)
 
+def main():
+    # Example usage
+    downloader = BrightDataDownloader()
+    snapshot_id = "snap_m7ko88ve1syf4sbot3"
+    downloader.download_snapshot(snapshot_id, "brightdata_results.json")
 
+    # dataset_id = "gd_lrqeq7u3bil0pmelk"
+    # filter_params = {
+    #     "name": "is_un_member",
+    #     "operator": "=",
+    #     "value": True
+    # }
+    # output_file = "brightdata_results.json"
+    
+    # try:
+    #     downloader.poll_and_download(
+    #         dataset_id=dataset_id,
+    #         filter_params=filter_params,
+    #         output_file=output_file,
+    #         records_limit=500,  # Optional: limit number of records
+    #         max_retries=30,     # Maximum number of status checks
+    #         delay=10            # Delay between status checks in seconds
+    #     )
+    # except Exception as e:
+    #     print(f"An error occurred: {e}")
 
-
+if __name__ == "__main__":
+    main() 
