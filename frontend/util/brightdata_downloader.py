@@ -100,15 +100,5 @@ class BrightDataDownloader:
         print("Downloading snapshot data...")
         self.download_snapshot(snapshot_id, output_file)
 
-def main():
-    # Example usage
-    downloader = BrightDataDownloader()
-    snapshot_id = "snap_m7ko88ve1syf4sbot3"
-    downloader.download_snapshot(snapshot_id, "brightdata_results.json")
 
-    # dataset_id = "gd_lrqeq7u3bil0pmelk"
-    # filter_params = {
-    #     "name": "is_un_member",
-    #     "operator": "=",
-    #     "value": True
 
