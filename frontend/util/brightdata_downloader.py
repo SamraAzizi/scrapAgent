@@ -89,16 +89,7 @@ class BrightDataDownloader:
             elif status in ['failed', 'error']:
                 raise Exception(f"Snapshot failed with status: {status}")
             
-            retries += 1
-            print(f"Waiting {delay} seconds before next check... (Attempt {retries}/{max_retries})")
-            time.sleep(delay)
-        
-        if retries >= max_retries:
-            raise TimeoutError("Maximum retry attempts reached")
-        
-        # Download the data
-        print("Downloading snapshot data...")
-        self.download_snapshot(snapshot_id, output_file)
+
 
 
 
