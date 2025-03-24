@@ -111,20 +111,4 @@ def main():
     #     "name": "is_un_member",
     #     "operator": "=",
     #     "value": True
-    # }
-    # output_file = "brightdata_results.json"
-    
-    # try:
-    #     downloader.poll_and_download(
-    #         dataset_id=dataset_id,
-    #         filter_params=filter_params,
-    #         output_file=output_file,
-    #         records_limit=500,  # Optional: limit number of records
-    #         max_retries=30,     # Maximum number of status checks
-    #         delay=10            # Delay between status checks in seconds
-    #     )
-    # except Exception as e:
-    #     print(f"An error occurred: {e}")
 
-if __name__ == "__main__":
-    main() 
