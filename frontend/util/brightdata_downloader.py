@@ -127,8 +127,4 @@ def main():
     #     print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     main() 
-=======
-    main() 
->>>>>>> e7e1aa680909af59232e0090d98828e4405e8945

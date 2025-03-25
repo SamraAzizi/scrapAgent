@@ -35,3 +35,12 @@ def initialize_session_state():
         st.session_state.parsed_data = None
     if 'progress_bar' not in st.session_state:
         st.session_state.progress_bar = None
+
+
+def display_parsed_travel_details(parsed_data):
+    """Display and validate parsed travel details"""
+    with st.expander("Parsed Travel Details", expanded=True):
+        st.markdown("### Here's what we understood:")
+        details = {
+            "From": parsed_data['origin_airport_code'] or "Not specified",
+            "To": parsed_data['destination_airport_code'] or "Not specified",
