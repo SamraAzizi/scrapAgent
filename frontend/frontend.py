@@ -51,3 +51,12 @@ def display_parsed_travel_details(parsed_data):
         
         for key, value in details.items():
             st.write(f"**{key}:** {value}")
+
+            # Validate required fields
+        if not (parsed_data['origin_airport_code'] and parsed_data['destination_airport_code']):
+            st.error(MISSING_AIRPORTS_ERROR)
+            st.stop()
+            
+        if not (parsed_data['start_date'] and parsed_data['end_date']):
+            st.error(MISSING_DATES_ERROR)
+            st.stop()
