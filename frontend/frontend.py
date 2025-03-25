@@ -44,3 +44,10 @@ def display_parsed_travel_details(parsed_data):
         details = {
             "From": parsed_data['origin_airport_code'] or "Not specified",
             "To": parsed_data['destination_airport_code'] or "Not specified",
+
+            "Departure": format_date(parsed_data['start_date']) if parsed_data['start_date'] else "Not specified",
+            "Return": format_date(parsed_data['end_date']) if parsed_data['end_date'] else "Not specified",
+        }
+        
+        for key, value in details.items():
+            st.write(f"**{key}:** {value}")
