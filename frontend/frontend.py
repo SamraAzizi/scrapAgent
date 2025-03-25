@@ -60,3 +60,17 @@ def display_parsed_travel_details(parsed_data):
         if not (parsed_data['start_date'] and parsed_data['end_date']):
             st.error(MISSING_DATES_ERROR)
             st.stop()
+
+def search_travel_options(parsed_data, travel_description, progress_container):
+    """Search for flights and hotels based on parsed data"""
+    with progress_container.status("✨ Finding the best options for you...",state="running", expanded=True):
+        my_bar = st.progress(0)
+        try:
+            st.write(" - ✈️ Finding available flights for your dates..")
+            flight_response = api_client.search_flights(
+                parsed_data['origin_airport_code'],
+                parsed_data['destination_airport_code'],
+                parsed_data['start_date'],
+                parsed_data['end_date'],
+                travel_description
+            )
