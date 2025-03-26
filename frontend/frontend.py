@@ -123,3 +123,14 @@ def search_travel_options(parsed_data, travel_description, progress_container):
                 hotel_results,
                 travel_description,
                 destination=parsed_data['destination_city_name'],
+                origin=parsed_data['origin_airport_code'],
+                check_in=parsed_data['start_date'],
+                check_out=parsed_data['end_date'],
+                occupancy=1
+            )
+            my_bar.progress(0.8)
+            
+            st.success(SEARCH_COMPLETED)
+            
+            # Update session state
+            st.session_state.summary = summary
