@@ -74,3 +74,11 @@ def search_travel_options(parsed_data, travel_description, progress_container):
                 parsed_data['end_date'],
                 travel_description
             )
+
+            my_bar.progress(0.2)
+            if flight_response.status_code != 200:
+                st.error(SEARCH_FAILED)
+                return False
+                
+            # Get flight results first
+            st.write(" - ✈️ Analyzing flight options and prices...")
