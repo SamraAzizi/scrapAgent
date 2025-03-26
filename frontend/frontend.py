@@ -134,3 +134,14 @@ def search_travel_options(parsed_data, travel_description, progress_container):
             
             # Update session state
             st.session_state.summary = summary
+            travel_context = {
+                'origin': parsed_data['origin_airport_code'],
+                'destination': parsed_data['destination_airport_code'],
+                'start_date': format_date(parsed_data['start_date']),
+                'end_date': format_date(parsed_data['end_date']),
+                "occupancy": 1,
+                'flights': flight_results,
+                'hotels': hotel_results,
+                'preferences': travel_description
+            }
+
