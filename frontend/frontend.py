@@ -100,3 +100,14 @@ def search_travel_options(parsed_data, travel_description, progress_container):
                 1,
                 "USD"
             )
+
+            my_bar.progress(0.6)
+            if hotel_response.status_code != 200:
+                st.error(SEARCH_FAILED)
+                return False
+                
+            # Get hotel results
+            st.write(" - 🏨 Finding the best room options for you...")
+            
+            hotel_task_id = hotel_response.json().get("task_id")
+            hotel_results = api_client.poll_task_status(hotel_task_id, "hotel", st)
