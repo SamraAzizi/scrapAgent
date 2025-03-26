@@ -111,3 +111,15 @@ def search_travel_options(parsed_data, travel_description, progress_container):
             
             hotel_task_id = hotel_response.json().get("task_id")
             hotel_results = api_client.poll_task_status(hotel_task_id, "hotel", st)
+            if not hotel_results:
+                st.error(SEARCH_INCOMPLETE)
+                return False
+            my_bar.progress(0.8)
+            
+            # Generate summary
+            st.write(" - ✨ Putting together your perfect trip...")
+            summary = travel_summary.get_summary(
+                flight_results,
+                hotel_results,
+                travel_description,
+                destination=parsed_data['destination_city_name'],
