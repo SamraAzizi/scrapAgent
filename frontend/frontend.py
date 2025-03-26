@@ -82,3 +82,21 @@ def search_travel_options(parsed_data, travel_description, progress_container):
                 
             # Get flight results first
             st.write(" - ✈️ Analyzing flight options and prices...")
+
+
+            flight_task_id = flight_response.json().get("task_id")
+            flight_results = api_client.poll_task_status(flight_task_id, "flight", st)
+            if not flight_results:
+                st.error(SEARCH_INCOMPLETE)
+                return False
+            
+            my_bar.progress(0.4)
+            st.write(" - 🏨 Searching for hotels in your destination...")
+            
+            hotel_response = api_client.search_hotels(
+                parsed_data['destination_city_name'],
+                parsed_data['start_date'],
+                parsed_data['end_date'],
+                1,
+                "USD"
+            )
