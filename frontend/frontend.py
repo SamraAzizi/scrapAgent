@@ -184,3 +184,20 @@ def render_chat_interface(messages, assistant, input_placeholder, message_type="
         messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
+
+            # Get and display AI response
+        with st.chat_message("assistant"):
+            response = assistant.get_response(prompt)
+            st.markdown(response)
+            messages.append({"role": "assistant", "content": response})
+
+def render_search_tab():
+    """Render the search tab content"""
+    st.header("Tell Us About Your Trip")
+    
+    travel_description = st.text_area(
+        "Describe your travel plans in natural language",
+        height=200,
+        help=TRAVEL_DESCRIPTION_HELP,
+        placeholder=TRAVEL_DESCRIPTION_PLACEHOLDER
+    )
