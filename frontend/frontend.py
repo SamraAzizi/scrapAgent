@@ -201,3 +201,18 @@ def render_search_tab():
         help=TRAVEL_DESCRIPTION_HELP,
         placeholder=TRAVEL_DESCRIPTION_PLACEHOLDER
     )
+    if st.button("Plan My Trip"):
+        if not travel_description:
+            st.warning(MISSING_DESCRIPTION_ERROR)
+            st.stop()
+        
+        # Parse and process travel details
+        parsed_data = get_travel_details(travel_description)
+        st.session_state.parsed_data = parsed_data
+        
+        # Display and validate parsed data
+        display_parsed_travel_details(parsed_data)
+        
+        # Search for travel options
+        progress_container = st.container()
+        search_travel_options(parsed_data, travel_description, progress_container)
