@@ -216,3 +216,27 @@ def render_search_tab():
         # Search for travel options
         progress_container = st.container()
         search_travel_options(parsed_data, travel_description, progress_container)
+
+
+def render_results_tab():
+    """Render the results tab content"""
+    if not st.session_state.travel_assistant:
+        st.info("👋 No trip details available yet!")
+        st.markdown(NO_TRIP_DETAILS_MESSAGE)
+        
+        with st.expander("Preview what you'll get", expanded=False):
+            st.markdown(PREVIEW_SUMMARY)
+    else:
+        with st.expander("Travel Summary", expanded=True):
+            st.markdown("### Flight and Hotel Details")
+            if 'summary' in st.session_state:
+                st.markdown(st.session_state.summary)
+            else:
+                st.info(NO_SUMMARY_YET)
+        
+        with st.expander("Travel Planning Assistant", expanded=True):
+            render_chat_interface(
+                st.session_state.chat_messages,
+                st.session_state.travel_assistant,
+                "Ask me anything about your trip..."
+            )
