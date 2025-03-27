@@ -170,3 +170,17 @@ def render_chat_interface(messages, assistant, input_placeholder, message_type="
         st.markdown("### Suggested Questions:")
         suggested_prompts = assistant.get_suggested_prompts()
         cols = st.columns(2)
+
+        with cols[0]:
+            for prompt in suggested_prompts["column1"]:
+                st.markdown(f"- {prompt}")
+        with cols[1]:
+            for prompt in suggested_prompts["column2"]:
+                st.markdown(f"- {prompt}")
+    
+    # Chat input
+    if prompt := st.chat_input(input_placeholder):
+        # Add user message
+        messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
