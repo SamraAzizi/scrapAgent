@@ -145,3 +145,28 @@ def search_travel_options(parsed_data, travel_description, progress_container):
                 'preferences': travel_description
             }
 
+            # Initialize assistants
+            st.session_state.travel_assistant = TravelAssistant(travel_context)
+            st.session_state.research_assistant = ResearchAssistant(travel_context)
+            st.session_state.travel_context = travel_context
+            
+            # Set flag to switch to results tab
+            st.session_state.switch_to_results = True
+            return True
+            
+        except Exception as e:
+            st.error(f"An error occurred: {str(e)}")
+            return False
+        
+
+def render_chat_interface(messages, assistant, input_placeholder, message_type="chat"):
+    """Render a chat interface with message history and input"""
+    for message in messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+    
+    # Show suggested prompts for empty chat
+    if not messages:
+        st.markdown("### Suggested Questions:")
+        suggested_prompts = assistant.get_suggested_prompts()
+        cols = st.columns(2)
