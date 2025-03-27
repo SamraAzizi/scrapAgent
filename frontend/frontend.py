@@ -240,3 +240,23 @@ def render_results_tab():
                 st.session_state.travel_assistant,
                 "Ask me anything about your trip..."
             )
+
+def render_research_tab():
+    """Render the research tab content"""
+    if not st.session_state.travel_assistant or not st.session_state.research_assistant:
+        st.info("👋 Please complete your trip search first to access the research assistant.")
+        st.markdown(RESEARCH_LOCKED_MESSAGE)
+    else:
+        st.header("Travel Research Assistant")
+        st.markdown(
+            RESEARCH_ASSISTANT_INTRO.format(
+                destination=st.session_state.travel_context['destination']
+            )
+        )
+        
+        render_chat_interface(
+            st.session_state.research_messages,
+            st.session_state.research_assistant,
+            "Ask about your destination...",
+            "research"
+        )
