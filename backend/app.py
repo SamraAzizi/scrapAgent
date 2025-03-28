@@ -8,3 +8,26 @@ import threading
 from enum import Enum
 from collections import defaultdict
 from waitress import serve
+
+
+app = Flask(__name__)
+
+# In-memory storage for task results
+task_results = defaultdict(dict)
+# Lock for thread-safe operations on task_results
+task_lock = threading.Lock()
+
+class TaskStatus(Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+def run_async(coro):
+    """Helper function to run async code"""
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        return loop.run_until_complete(coro)
+    finally:
+        loop.close()
