@@ -260,3 +260,38 @@ def render_research_tab():
             "Ask about your destination...",
             "research"
         )
+
+
+def main():
+    """Main application entry point"""
+    # Initialize services
+    global api_client, travel_summary
+    api_client = TravelAPIClient()
+    travel_summary = TravelSummary()
+    
+    # Initialize session state
+    initialize_session_state()
+    
+    # Main UI
+    st.title("Travel Search")
+    
+    # Create main tabs
+    search_tab, results_tab, research_tab = st.tabs(["Search", "Results & Planning", "Research"])
+    
+    # Render tab contents
+    with search_tab:
+        render_search_tab()
+    
+    with results_tab:
+        render_results_tab()
+    
+    with research_tab:
+        render_research_tab()
+    
+    # Handle tab switching after search
+    if hasattr(st.session_state, 'switch_to_results') and st.session_state.switch_to_results:
+        st.session_state.switch_to_results = False
+        results_tab._active = True
+
+if __name__ == "__main__":
+    main()
