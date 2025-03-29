@@ -63,3 +63,9 @@ def update_task_status(task_id, status, data=None, error=None):
             })
         else:
             task_results[task_id]['status'] = status
+
+
+def process_flight_search(task_id, origin, destination, start_date, end_date, preferences):
+    try:
+        # Update status to processing
+        update_task_status(task_id, TaskStatus.PROCESSING.value)
