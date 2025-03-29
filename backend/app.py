@@ -55,3 +55,11 @@ def update_task_status(task_id, status, data=None, error=None):
             task_results[task_id].update({
                 'status': status,
                 'data': data
+                })
+        elif error is not None:
+            task_results[task_id].update({
+                'status': status,
+                'error': error
+            })
+        else:
+            task_results[task_id]['status'] = status
