@@ -73,3 +73,12 @@ def process_flight_search(task_id, origin, destination, start_date, end_date, pr
         url = run_async(get_flight_url(origin, destination, start_date, end_date))
         if not url:
             raise Exception("Failed to generate flight search URL")
+# Scrape flight results
+        flight_results = run_async(scrape_flights(url, preferences))
+        
+        # Store results
+        update_task_status(
+            task_id, 
+            TaskStatus.COMPLETED.value,
+            data=flight_results
+        )
