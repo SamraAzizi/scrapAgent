@@ -69,3 +69,7 @@ def process_flight_search(task_id, origin, destination, start_date, end_date, pr
     try:
         # Update status to processing
         update_task_status(task_id, TaskStatus.PROCESSING.value)
+        # Get flight search URL
+        url = run_async(get_flight_url(origin, destination, start_date, end_date))
+        if not url:
+            raise Exception("Failed to generate flight search URL")
