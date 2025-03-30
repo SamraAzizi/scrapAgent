@@ -134,3 +134,8 @@ def search_flights():
         start_date = data.get('start_date').replace(" 0", " ")
         end_date = data.get('end_date').replace(" 0", " ")
         preferences = data.get('preferences')
+        # Validate required parameters
+        if not all([origin, destination, start_date, end_date]):
+            return jsonify({
+                'error': 'Missing required parameters. Please provide origin, destination, start_date, and end_date'
+            }), 400
