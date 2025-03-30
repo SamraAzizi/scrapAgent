@@ -121,3 +121,16 @@ def process_hotel_search(task_id, location, check_in, check_out, occupancy, curr
             TaskStatus.FAILED.value,
             error=str(e)
         )
+
+
+@app.route('/search_flights', methods=['POST'])
+def search_flights():
+    try:
+        data = request.get_json()
+        
+        # Extract required parameters
+        origin = data.get('origin')
+        destination = data.get('destination')
+        start_date = data.get('start_date').replace(" 0", " ")
+        end_date = data.get('end_date').replace(" 0", " ")
+        preferences = data.get('preferences')
