@@ -82,3 +82,11 @@ def process_flight_search(task_id, origin, destination, start_date, end_date, pr
             TaskStatus.COMPLETED.value,
             data=flight_results
         )
+
+    except Exception as e:
+        print(f"Error in flight search task: {str(e)}")
+        update_task_status(
+            task_id,
+            TaskStatus.FAILED.value,
+            error=str(e)
+        )
