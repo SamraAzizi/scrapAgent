@@ -99,3 +99,18 @@ def process_hotel_search(task_id, location, check_in, check_out, occupancy, curr
         # Create API instance and search for hotels
         api = BrightDataAPI()
         with requests.Session() as session:
+            hotels = api.search_hotels(
+                session=session,
+                location=location,
+                check_in=check_in,
+                check_out=check_out,
+                occupancy=occupancy,
+                currency=currency
+            )
+
+        # Store results
+        update_task_status(
+            task_id,
+            TaskStatus.COMPLETED.value,
+            data=hotels
+        )
