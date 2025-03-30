@@ -114,3 +114,10 @@ def process_hotel_search(task_id, location, check_in, check_out, occupancy, curr
             TaskStatus.COMPLETED.value,
             data=hotels
         )
+    except Exception as e:
+        print(f"Error in hotel search task: {str(e)}")
+        update_task_status(
+            task_id,
+            TaskStatus.FAILED.value,
+            error=str(e)
+        )
