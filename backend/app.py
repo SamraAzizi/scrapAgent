@@ -90,3 +90,12 @@ def process_flight_search(task_id, origin, destination, start_date, end_date, pr
             TaskStatus.FAILED.value,
             error=str(e)
         )
+
+def process_hotel_search(task_id, location, check_in, check_out, occupancy, currency):
+    try:
+        # Update status to processing
+        update_task_status(task_id, TaskStatus.PROCESSING.value)
+
+        # Create API instance and search for hotels
+        api = BrightDataAPI()
+        with requests.Session() as session:
