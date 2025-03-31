@@ -196,3 +196,14 @@ def search_hotels():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/task_status/<task_id>', methods=['GET'])
+def get_status(task_id):
+    try:
+        with task_lock:
+            result = task_results.get(task_id)
+        if not result:
+            return jsonify({'error': 'Task not found'}), 404
+
+        return jsonify(result)
