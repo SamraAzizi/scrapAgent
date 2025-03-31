@@ -151,3 +151,15 @@ def search_flights():
             daemon=True
         )
         thread.start()
+        return jsonify({
+            'task_id': task_id,
+            'status': TaskStatus.PENDING.value
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/search_hotels', methods=['POST'])
+def search_hotels():
+    try:
+        data = request.get_json()
