@@ -180,3 +180,19 @@ def search_hotels():
         task_id = str(uuid.uuid4())
         with task_lock:
             task_results[task_id] = {'status': TaskStatus.PENDING.value}
+
+# Start background thread
+        thread = threading.Thread(
+            target=process_hotel_search,
+            args=(task_id, location, check_in, check_out, occupancy, currency),
+            daemon=True
+        )
+        thread.start()
+        
+        return jsonify({
+            'task_id': task_id,
+            'status': TaskStatus.PENDING.value
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
