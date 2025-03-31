@@ -139,3 +139,15 @@ def search_flights():
             return jsonify({
                 'error': 'Missing required parameters. Please provide origin, destination, start_date, and end_date'
             }), 400
+        # Generate task ID and store initial status
+        task_id = str(uuid.uuid4())
+        with task_lock:
+            task_results[task_id] = {'status': TaskStatus.PENDING.value}
+
+        # Start background thread
+        thread = threading.Thread(
+            target=process_flight_search,
+            args=(task_id, origin, destination, start_date, end_date, preferences),
+            daemon=True
+        )
+        thread.start()
