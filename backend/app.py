@@ -163,3 +163,20 @@ def search_flights():
 def search_hotels():
     try:
         data = request.get_json()
+        # Extract required parameters
+        location = data.get('location')
+        check_in = data.get('check_in').replace(" 0", " ")
+        check_out = data.get('check_out').replace(" 0", " ")
+        occupancy = data.get('occupancy', '2')
+        currency = data.get('currency', 'USD')
+        
+        # Validate required parameters
+        if not all([location, check_in, check_out]):
+            return jsonify({
+                'error': 'Missing required parameters. Please provide location, check_in, and check_out dates'
+            }), 400
+
+        # Generate task ID and store initial status
+        task_id = str(uuid.uuid4())
+        with task_lock:
+            task_results[task_id] = {'status': TaskStatus.PENDING.value}
