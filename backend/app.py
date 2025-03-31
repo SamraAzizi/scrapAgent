@@ -9,7 +9,6 @@ from enum import Enum
 from collections import defaultdict
 from waitress import serve
 
-
 app = Flask(__name__)
 
 # In-memory storage for task results
@@ -48,32 +47,17 @@ def update_task_status(task_id, status, data=None, error=None):
         else:
             task_results[task_id]['status'] = status
 
-def update_task_status(task_id, status, data=None, error=None):
-    """Thread-safe update of task status"""
-    with task_lock:
-        if data is not None:
-            task_results[task_id].update({
-                'status': status,
-                'data': data
-                })
-        elif error is not None:
-            task_results[task_id].update({
-                'status': status,
-                'error': error
-            })
-        else:
-            task_results[task_id]['status'] = status
-
-
 def process_flight_search(task_id, origin, destination, start_date, end_date, preferences):
     try:
         # Update status to processing
         update_task_status(task_id, TaskStatus.PROCESSING.value)
+
         # Get flight search URL
         url = run_async(get_flight_url(origin, destination, start_date, end_date))
         if not url:
             raise Exception("Failed to generate flight search URL")
-# Scrape flight results
+
+        # Scrape flight results
         flight_results = run_async(scrape_flights(url, preferences))
         
         # Store results
@@ -114,6 +98,7 @@ def process_hotel_search(task_id, location, check_in, check_out, occupancy, curr
             TaskStatus.COMPLETED.value,
             data=hotels
         )
+
     except Exception as e:
         print(f"Error in hotel search task: {str(e)}")
         update_task_status(
@@ -121,7 +106,6 @@ def process_hotel_search(task_id, location, check_in, check_out, occupancy, curr
             TaskStatus.FAILED.value,
             error=str(e)
         )
-
 
 @app.route('/search_flights', methods=['POST'])
 def search_flights():
@@ -134,11 +118,13 @@ def search_flights():
         start_date = data.get('start_date').replace(" 0", " ")
         end_date = data.get('end_date').replace(" 0", " ")
         preferences = data.get('preferences')
+
         # Validate required parameters
         if not all([origin, destination, start_date, end_date]):
             return jsonify({
                 'error': 'Missing required parameters. Please provide origin, destination, start_date, and end_date'
             }), 400
+
         # Generate task ID and store initial status
         task_id = str(uuid.uuid4())
         with task_lock:
@@ -151,6 +137,7 @@ def search_flights():
             daemon=True
         )
         thread.start()
+        
         return jsonify({
             'task_id': task_id,
             'status': TaskStatus.PENDING.value
@@ -163,6 +150,7 @@ def search_flights():
 def search_hotels():
     try:
         data = request.get_json()
+        
         # Extract required parameters
         location = data.get('location')
         check_in = data.get('check_in').replace(" 0", " ")
@@ -181,7 +169,7 @@ def search_hotels():
         with task_lock:
             task_results[task_id] = {'status': TaskStatus.PENDING.value}
 
-# Start background thread
+        # Start background thread
         thread = threading.Thread(
             target=process_hotel_search,
             args=(task_id, location, check_in, check_out, occupancy, currency),
@@ -197,7 +185,6 @@ def search_hotels():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/task_status/<task_id>', methods=['GET'])
 def get_status(task_id):
     try:
@@ -207,3 +194,10 @@ def get_status(task_id):
             return jsonify({'error': 'Task not found'}), 404
 
         return jsonify(result)
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    # Use waitress instead of Flask's development server
+    serve(app, host='0.0.0.0', port=5000) 
