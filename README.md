@@ -14,3 +14,19 @@ Welcome to the AI Travel Companion, your smart travel assistant that simplifies 
 - **Local Guide**: Offers insights on destinations, attractions, and eateries
 - Advanced restaurant search using vector-based retrieval (currently available for Thailand only)
 - Integrates with web search for updated travel information
+
+### 🏨 Detailed Travel Insights
+- Flight options with pricing details
+- Curated hotel recommendations
+- Restaurant suggestions with:
+  - Ratings and user reviews
+  - Operating hours
+  - Address and contact information
+  - Estimated price range
+  - Available amenities
+
+### 💬 Interactive Chat Support
+- Conversational AI for seamless trip planning
+- Suggested prompts to guide users
+- Context-aware responses tailored to individual travel needs
+- Rich-text output for better readability
