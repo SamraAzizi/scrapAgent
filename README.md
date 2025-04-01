@@ -30,3 +30,18 @@ Welcome to the AI Travel Companion, your smart travel assistant that simplifies 
 - Suggested prompts to guide users
 - Context-aware responses tailored to individual travel needs
 - Rich-text output for better readability
+
+## Tech Stack
+- **Frontend**: Streamlit
+- **AI Models**: Ollama/Claude
+- **Vector Database**: ChromaDB
+- **Text Embeddings**: nomic-embed-text
+- **Search Engine**: DuckDuckGo API
+- **Data Management**: JSON & Vector Storage
+- **Live Web Data (Scraping, APIs, Datasets)**: BrightData
+
+## Getting Started
+
+### Install Required Packages
+```bash
+pip install -r requirements.txt
