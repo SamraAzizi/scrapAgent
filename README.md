@@ -78,3 +78,10 @@ Example: "Plan a trip to Paris from LA between May 5th and May 15th."
 - Discover top-rated restaurants
 
 ### Get Personalized Ingsights
+- Chat with the Local Guide about must-see attractions
+- Receive dining recommendations
+- Learn travel tips and cultural etiquette
+-
+------------------------------------------------
+
+Thank you for using AI Travel Companion! We hope you have a wonderful travel experience!
