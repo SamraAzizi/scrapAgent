@@ -45,3 +45,36 @@ Welcome to the AI Travel Companion, your smart travel assistant that simplifies 
 ### Install Required Packages
 ```bash
 pip install -r requirements.txt
+
+```
+## Setup Environment
+
+Copy and configure environment variables:
+
+```bash
+cp sample.env .env
+```
+
+## Start the Frontend
+
+```bash
+cd frontend
+streamlit run frontend.py
+```
+
+## Launch the backend
+```bash
+cd backend
+python app.py
+```
+## How to Use
+### descripte Your Trip
+Use natural language to specify your travel plans.
+Example: "Plan a trip to Paris from LA between May 5th and May 15th."
+
+### Explore Option
+- Browse available flights with real-time pricing
+- Find hotel accommodations
+- Discover top-rated restaurants
+
+### Get Personalized Ingsights
