@@ -5,7 +5,7 @@ from ai.travel_summary import TravelSummary
 from api.api_client import TravelAPIClient
 from ai.research_assistant import ResearchAssistant
 from ai.user_preferences import get_travel_details
-from constants import *
+from constant import *
 
 
 def format_date(date_str):
@@ -21,7 +21,7 @@ def initialize_session_state():
     if 'search_requirements' not in st.session_state:
         st.session_state.search_requirements = ""
 
-        if 'travel_assistant' not in st.session_state:
+    if 'travel_assistant' not in st.session_state:
         st.session_state.travel_assistant = None
     if 'chat_messages' not in st.session_state:
         st.session_state.chat_messages = []
